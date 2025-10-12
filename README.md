@@ -1,672 +1,552 @@
-# ⚡ ProElectris Backend API
+# Backend ProElectris
 
-> **API REST para gestión de productos eléctricos con Clean Architecture y TypeScript**
+![TypeScript](https://img.shields.io/badge/TypeScript-5.1-blue?logo=typescript)
+![Node.js](https://img.shields.io/badge/Node.js-20.x-green?logo=node.js)
+![Express](https://img.shields.io/badge/Express-4.18-lightgrey?logo=express)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-blue?logo=postgresql)
+![Sequelize](https://img.shields.io/badge/Sequelize-6.32-52B0E7?logo=sequelize)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-## 📋 Descripción
+Backend API REST para el sistema de gestión de ProElectris, desarrollado con Node.js, Express y TypeScript. Proporciona endpoints para la administración de clientes y productos con validación robusta y conexión a PostgreSQL.
 
-ProElectris Backend API es una aplicación robusta desarrollada con Node.js, Express y TypeScript que implementa principios de Clean Architecture para la gestión integral de productos eléctricos y clientes. Proporciona una API REST completa con validación de datos, manejo de errores robusto y configuración de seguridad optimizada.
+## Descripción
 
-## ⭐ Características Principales
+API backend que implementa operaciones CRUD completas para la gestión de clientes y productos. Incluye validaciones exhaustivas para datos paraguayos (RUC, CI), paginación, búsqueda, y manejo de errores profesional.
 
-### 🎯 Funcionalidades Core
-- **👥 Gestión de Clientes:** CRUD completo con validaciones de negocio
-- **📦 Gestión de Productos:** Catálogo de productos eléctricos con especificaciones
-- **🔗 Relaciones Cliente-Producto:** Sistema de asignación y gestión de productos por cliente
-- **🔐 Configuración Segura:** CORS configurado con orígenes específicos y headers seguros
-- **📊 Health Checks:** Monitoreo del estado de la aplicación y base de datos
-- **🛡️ Manejo de Errores:** Sistema centralizado de gestión de errores y logging
+### Características Principales
 
-### 🔧 Características Técnicas
-- **🏗️ Clean Architecture:** Separación clara entre modelos, controladores y rutas
-- **⚡ TypeScript Strict:** Type safety completo con interfaces bien definidas
-- **🗄️ ORM Avanzado:** Sequelize con TypeScript para mapeo objeto-relacional
-- **🔄 Hot Reload:** Desarrollo ágil con Nodemon y ts-node
-- **📈 Logging Estructurado:** Sistema de logs con timestamps y contexto
-- **🚀 Graceful Shutdown:** Cierre elegante del servidor con manejo de señales
+- API REST con Express y TypeScript
+- Validación robusta de datos de entrada
+- Validadores específicos para datos paraguayos (RUC, CI)
+- Paginación y búsqueda en endpoints de listado
+- Manejo centralizado de errores
+- Health check endpoint para monitoreo
+- CORS configurado de manera segura
+- Logging de peticiones HTTP
 
-## 💻 Stack Tecnológico
+## Stack Tecnológico
 
-### Backend Core
-- **Node.js** - Runtime JavaScript de alto rendimiento
-- **Express.js 4.18.2** - Framework web minimalista y flexible
-- **TypeScript 5.1.6** - Superset de JavaScript con tipado estático
-- **CORS 2.8.5** - Configuración de políticas de origen cruzado
+### Backend
+- **Runtime**: Node.js 20.x LTS
+- **Framework**: Express 4.18
+- **Lenguaje**: TypeScript 5.1
+- **ORM**: Sequelize 6.32
+- **Base de Datos**: PostgreSQL 15+
 
-### Base de Datos
-- **PostgreSQL** - Base de datos relacional robusta
-- **Sequelize 6.32.1** - ORM moderno con soporte completo para TypeScript
-- **sequelize-typescript 2.1.5** - Decoradores y tipos para Sequelize
-- **pg 8.11.1** - Driver PostgreSQL nativo
+### Dependencias Principales
+```json
+{
+  "express": "^4.18.2",
+  "sequelize": "^6.32.1",
+  "pg": "^8.11.1",
+  "cors": "^2.8.5",
+  "dotenv": "^16.3.1",
+  "typescript": "^5.1.6"
+}
+```
 
-### Herramientas de Desarrollo
-- **ts-node 10.9.1** - Ejecución directa de TypeScript
-- **Nodemon 3.0.1** - Monitor de archivos con restart automático
-- **dotenv 16.3.1** - Gestión de variables de entorno
+## Requisitos Previos
 
-## 🚀 Instalación
+- Node.js 20.x o superior
+- PostgreSQL 15 o superior
+- npm o pnpm
 
-### Prerrequisitos
+## Instalación
 
-- **Node.js 16+** (LTS recomendado)
-- **PostgreSQL 12+** para persistencia de datos
-- **npm 8+** o **yarn 1.22+**
-
-### Pasos de Instalación
-
+### 1. Clonar el repositorio
 ```bash
-# 1. Clonar el repositorio
-git clone https://github.com/Yop007N/proelectris-backend-api.git
-cd proelectris-backend-api
+git clone https://github.com/Yop007N/backendproelectris.git
+cd backendproelectris
+```
 
-# 2. Instalar dependencias
+### 2. Instalar dependencias
+```bash
 npm install
-
-# 3. Configurar variables de entorno
-cp .env.example .env
-# Editar .env con tu configuración
-
-# 4. Construir la aplicación
-npm run build
-
-# 5. Iniciar en desarrollo
-npm run dev
 ```
 
-### Docker Deployment
+### 3. Configurar variables de entorno
 
-```bash
-# Construir imagen
-docker build -t proelectris-api .
+Crear un archivo `.env` en la raíz del proyecto basándose en `.env.example`:
 
-# Ejecutar contenedor
-docker run -p 3000:3000 --env-file .env proelectris-api
-
-# Docker Compose
-docker-compose up -d
-```
-
-## ⚙️ Configuración
-
-### Variables de Entorno
-
-```bash
-# .env
+```env
 # Database Configuration
+DB_NAME=proelectris_db
+DB_USER=postgres
+DB_PASSWORD=your_secure_password
 DB_HOST=localhost
 DB_PORT=5432
-DB_NAME=proelectris_db
-DB_USER=proelectris_user
-DB_PASSWORD=secure_password
 DB_DIALECT=postgres
 
 # Server Configuration
 PORT=3000
 NODE_ENV=development
 
+# JWT Configuration (para futuras implementaciones)
+JWT_SECRET=your_super_secret_jwt_key_change_in_production
+JWT_EXPIRES_IN=24h
+
 # CORS Configuration
-CORS_ORIGIN=http://localhost:3000,http://localhost:4200
-
-# Security
-SESSION_SECRET=your_session_secret
-JWT_SECRET=your_jwt_secret
-
-# Logging
-LOG_LEVEL=info
-LOG_FORMAT=combined
+CORS_ORIGIN=http://localhost:3000
 ```
 
-### Configuración de Base de Datos
+### 4. Configurar la base de datos
 
-```typescript
-// Configuración de Sequelize
-const sequelizeConfig = {
-  host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT || '5432'),
-  database: process.env.DB_NAME || 'proelectris_db',
-  username: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || '',
-  dialect: 'postgres' as Dialect,
-  pool: {
-    max: 20,
-    min: 5,
-    acquire: 60000,
-    idle: 10000
-  },
-  logging: process.env.NODE_ENV === 'development' ? console.log : false
-};
-```
-
-## 🏗️ Arquitectura del Proyecto
-
-### Estructura Organizada
-
-```
-src/
-├── config/                    # Configuraciones
-│   └── database.ts           # Configuración de Sequelize
-├── controllers/               # Controladores de la API
-│   ├── clientes.controller.ts # Lógica de negocio para clientes
-│   └── productos.controller.ts # Lógica de negocio para productos
-├── models/                    # Modelos de datos
-│   ├── index.ts              # Configuración de modelos
-│   ├── Cliente.ts            # Modelo de Cliente
-│   ├── Producto.ts           # Modelo de Producto
-│   └── ClienteProducto.ts    # Relación Cliente-Producto
-├── routes/                    # Definición de rutas
-│   └── routes.ts             # Rutas de la API
-├── app.ts                     # Configuración de Express
-└── index.ts                   # Punto de entrada
-```
-
-### Modelos de Datos
-
-```typescript
-// Modelo Cliente
-interface Cliente {
-  id: number;
-  nombre: string;
-  apellido: string;
-  email: string;
-  telefono?: string;
-  direccion?: string;
-  ciudad?: string;
-  estado: 'activo' | 'inactivo';
-  fechaCreacion: Date;
-  fechaActualizacion: Date;
-}
-
-// Modelo Producto
-interface Producto {
-  id: number;
-  nombre: string;
-  descripcion: string;
-  categoria: string;
-  precio: number;
-  stock: number;
-  codigo: string;
-  especificaciones: Record<string, any>;
-  estado: 'disponible' | 'agotado' | 'discontinuado';
-  fechaCreacion: Date;
-  fechaActualizacion: Date;
-}
-
-// Relación Cliente-Producto
-interface ClienteProducto {
-  clienteId: number;
-  productoId: number;
-  cantidad: number;
-  precioUnitario: number;
-  fechaAsignacion: Date;
-  notas?: string;
-}
-```
-
-## 📖 Scripts Disponibles
+Crear la base de datos en PostgreSQL:
 
 ```bash
-# Desarrollo
-npm run dev               # Desarrollo con hot reload usando nodemon
-npm run build             # Compila TypeScript a JavaScript
-npm start                 # Ejecuta aplicación compilada
-
-# Testing
-npm test                  # Ejecuta tests (configurar con Jest)
-
-# Utilidades
-npm run type-check        # Verificación de tipos TypeScript
-npm run lint              # Linting con ESLint (si está configurado)
-npm run format            # Formateo con Prettier (si está configurado)
+psql -U postgres
+CREATE DATABASE proelectris_db;
+\q
 ```
 
-## 📡 API Endpoints
+Las tablas se crearán automáticamente al iniciar la aplicación gracias a Sequelize.
 
-### Clientes
-
-```typescript
-// CRUD completo para clientes
-GET    /api/clientes              # Obtener todos los clientes
-GET    /api/clientes/:id          # Obtener cliente por ID
-POST   /api/clientes              # Crear nuevo cliente
-PUT    /api/clientes/:id          # Actualizar cliente completo
-PATCH  /api/clientes/:id          # Actualización parcial de cliente
-DELETE /api/clientes/:id          # Eliminar cliente
-
-// Endpoints especializados
-GET    /api/clientes/:id/productos # Productos asignados al cliente
-POST   /api/clientes/:id/productos # Asignar producto a cliente
+### 5. Compilar TypeScript
+```bash
+npm run build
 ```
 
-#### Ejemplo Crear Cliente
+### 6. Iniciar el servidor
+
+**Desarrollo** (con hot reload):
+```bash
+npm run dev
+```
+
+**Producción**:
+```bash
+npm start
+```
+
+El servidor estará disponible en `http://localhost:3000`
+
+## Estructura del Proyecto
+
+```
+backendproelectris/
+├── src/
+│   ├── config/
+│   │   └── database.ts           # Configuración de Sequelize
+│   ├── controllers/
+│   │   ├── clientes.controller.ts  # Controlador de clientes
+│   │   └── productos.controller.ts # Controlador de productos
+│   ├── models/
+│   │   ├── Cliente.ts             # Modelo de Cliente
+│   │   ├── Producto.ts            # Modelo de Producto
+│   │   ├── ClienteProducto.ts     # Modelo de relación
+│   │   └── index.ts               # Exportación de modelos
+│   ├── routes/
+│   │   └── routes.ts              # Definición de rutas
+│   ├── index.ts                   # Configuración de Express
+│   └── app.ts                     # Punto de entrada
+├── .env.example                   # Ejemplo de variables de entorno
+├── .gitignore
+├── tsconfig.json
+├── package.json
+└── README.md
+```
+
+## API Endpoints
+
+Base URL: `http://localhost:3000/api`
+
+### Health Check
+
+#### GET /health
+Verifica el estado del servidor y la conexión a la base de datos.
+
+**Respuesta exitosa (200)**:
 ```json
-POST /api/clientes
-{
-  "nombre": "Juan",
-  "apellido": "Pérez",
-  "email": "juan.perez@email.com",
-  "telefono": "+595981234567",
-  "direccion": "Av. Principal 123",
-  "ciudad": "Asunción"
-}
-```
-
-### Productos
-
-```typescript
-// CRUD completo para productos
-GET    /api/productos             # Obtener todos los productos
-GET    /api/productos/:id         # Obtener producto por ID
-POST   /api/productos             # Crear nuevo producto
-PUT    /api/productos/:id         # Actualizar producto completo
-PATCH  /api/productos/:id         # Actualización parcial de producto
-DELETE /api/productos/:id         # Eliminar producto
-
-// Filtros y búsquedas
-GET    /api/productos?categoria=:cat    # Filtrar por categoría
-GET    /api/productos?disponible=true  # Solo productos disponibles
-GET    /api/productos/search?q=:query  # Búsqueda por nombre o código
-```
-
-#### Ejemplo Crear Producto
-```json
-POST /api/productos
-{
-  "nombre": "Interruptor Inteligente WiFi",
-  "descripcion": "Interruptor con control remoto vía WiFi",
-  "categoria": "Automatización",
-  "precio": 75000,
-  "stock": 50,
-  "codigo": "INT-WIFI-001",
-  "especificaciones": {
-    "voltaje": "220V",
-    "corriente": "10A",
-    "conectividad": "WiFi 2.4GHz",
-    "protocolo": "IEEE 802.11b/g/n"
-  }
-}
-```
-
-### Sistema
-
-```typescript
-// Endpoints del sistema
-GET    /health                   # Health check y estado del sistema
-GET    /                         # Información de la API
-```
-
-#### Health Check Response
-```json
-GET /health
 {
   "status": "healthy",
-  "timestamp": "2024-12-20T10:30:00.000Z",
-  "uptime": 3600,
+  "timestamp": "2024-01-15T10:30:00.000Z",
+  "uptime": 3600.5,
   "database": "connected",
   "environment": "development",
   "version": "1.0.0"
 }
 ```
 
-## 🎯 Funcionalidades Implementadas
+### Clientes
 
-### Configuración de Seguridad
+#### GET /api/clientes
+Obtiene todos los clientes con paginación y búsqueda.
 
-```typescript
-// CORS configurado de manera segura
-const corsOptions = {
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
-  credentials: true,
-  optionsSuccessStatus: 200,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: [
-    'Content-Type',
-    'Authorization',
-    'X-Requested-With',
-    'Accept',
-    'Origin'
-  ]
-};
+**Query Parameters**:
+- `page` (opcional): Número de página (default: 1)
+- `limit` (opcional): Registros por página (default: 10, max: 100)
+- `search` (opcional): Búsqueda por nombre, email o RUC
 
-// Middleware de parseo con límites
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-```
-
-### Sistema de Logging
-
-```typescript
-// Logging middleware personalizado
-app.use((req, res, next) => {
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
-  next();
-});
-
-// Error handler global
-app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error('Error no manejado:', error);
-  res.status(500).json({
-    error: 'Error interno del servidor',
-    message: process.env.NODE_ENV === 'development' ? error.message : 'Algo salió mal',
-    timestamp: new Date().toISOString()
-  });
-});
-```
-
-### Graceful Shutdown
-
-```typescript
-// Manejo de señales del sistema
-process.on('SIGTERM', () => {
-  console.log('SIGTERM recibido, cerrando servidor...');
-  server.close(() => {
-    console.log('Servidor cerrado exitosamente');
-    process.exit(0);
-  });
-});
-
-process.on('SIGINT', () => {
-  console.log('SIGINT recibido, cerrando servidor...');
-  server.close(() => {
-    console.log('Servidor cerrado exitosamente');
-    process.exit(0);
-  });
-});
-```
-
-### Validaciones de Negocio
-
-```typescript
-// Ejemplo de validación en controlador
-export const crearCliente = async (req: Request, res: Response) => {
-  try {
-    const { nombre, apellido, email } = req.body;
-
-    // Validaciones básicas
-    if (!nombre || !apellido || !email) {
-      return res.status(400).json({
-        error: 'Campos obligatorios faltantes',
-        campos: ['nombre', 'apellido', 'email']
-      });
+**Respuesta exitosa (200)**:
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "nombre": "Juan Pérez",
+      "direccion": "Av. Eusebio Ayala 1234",
+      "telefono": "+595981234567",
+      "email": "juan.perez@example.com",
+      "ruc": "1234567-8",
+      "ci": "1234567",
+      "createdAt": "2024-01-15T10:00:00.000Z",
+      "updatedAt": "2024-01-15T10:00:00.000Z"
     }
-
-    // Validación de formato de email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({
-        error: 'Formato de email inválido'
-      });
-    }
-
-    // Verificar email único
-    const clienteExistente = await Cliente.findOne({ where: { email } });
-    if (clienteExistente) {
-      return res.status(409).json({
-        error: 'El email ya está registrado'
-      });
-    }
-
-    const cliente = await Cliente.create(req.body);
-    res.status(201).json(cliente);
-
-  } catch (error) {
-    console.error('Error creando cliente:', error);
-    res.status(500).json({
-      error: 'Error interno del servidor'
-    });
+  ],
+  "pagination": {
+    "currentPage": 1,
+    "totalPages": 5,
+    "totalRecords": 45,
+    "recordsPerPage": 10,
+    "hasNextPage": true,
+    "hasPrevPage": false
   }
-};
-```
-
-## 🧪 Testing
-
-### Configuración de Tests
-
-```bash
-# Instalar dependencias de testing
-npm install --save-dev jest @types/jest ts-jest supertest @types/supertest
-
-# Ejecutar tests
-npm test
-
-# Tests con cobertura
-npm run test:coverage
-
-# Tests en modo watch
-npm run test:watch
-```
-
-### Estructura de Tests
-
-```
-src/
-├── __tests__/
-│   ├── controllers/
-│   │   ├── clientes.test.ts
-│   │   └── productos.test.ts
-│   ├── models/
-│   │   ├── Cliente.test.ts
-│   │   └── Producto.test.ts
-│   └── integration/
-│       └── api.test.ts
-└── jest.config.js
-```
-
-### Ejemplos de Tests
-
-```typescript
-// Test de controlador
-describe('Clientes Controller', () => {
-  beforeEach(async () => {
-    await Cliente.destroy({ where: {} });
-  });
-
-  describe('POST /api/clientes', () => {
-    it('should create a new cliente', async () => {
-      const clienteData = {
-        nombre: 'Juan',
-        apellido: 'Pérez',
-        email: 'juan@test.com'
-      };
-
-      const response = await request(app)
-        .post('/api/clientes')
-        .send(clienteData)
-        .expect(201);
-
-      expect(response.body).toMatchObject(clienteData);
-      expect(response.body.id).toBeDefined();
-    });
-
-    it('should return 400 for missing required fields', async () => {
-      const response = await request(app)
-        .post('/api/clientes')
-        .send({ nombre: 'Juan' })
-        .expect(400);
-
-      expect(response.body.error).toBe('Campos obligatorios faltantes');
-    });
-  });
-});
-```
-
-## 🌐 Despliegue
-
-### Dockerfile
-
-```dockerfile
-FROM node:18-alpine
-
-WORKDIR /app
-
-# Instalar dependencias
-COPY package*.json ./
-RUN npm ci --only=production
-
-# Copiar código fuente
-COPY dist ./dist
-COPY .env ./
-
-EXPOSE 3000
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:3000/health || exit 1
-
-USER node
-
-CMD ["npm", "start"]
-```
-
-### Docker Compose
-
-```yaml
-version: '3.8'
-
-services:
-  proelectris-api:
-    build: .
-    ports:
-      - "3000:3000"
-    environment:
-      NODE_ENV: production
-      DB_HOST: postgres
-    depends_on:
-      - postgres
-    restart: unless-stopped
-
-  postgres:
-    image: postgres:15-alpine
-    environment:
-      POSTGRES_DB: proelectris_db
-      POSTGRES_USER: proelectris_user
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-
-volumes:
-  postgres_data:
-```
-
-### Despliegue en Producción
-
-```bash
-# Build de producción
-npm run build
-
-# Variables de entorno para producción
-export NODE_ENV=production
-export DB_HOST=your-db-host
-export DB_PASSWORD=your-secure-password
-
-# Ejecutar aplicación
-npm start
-
-# Con PM2 para clustering
-npm install -g pm2
-pm2 start dist/index.js --name proelectris-api --instances max
-pm2 startup
-pm2 save
-```
-
-## 📊 Monitoreo y Logging
-
-### Health Monitoring
-
-```typescript
-// Endpoint de health check avanzado
-app.get('/health', async (req, res) => {
-  const healthcheck = {
-    uptime: process.uptime(),
-    message: 'OK',
-    timestamp: Date.now(),
-    checks: {
-      database: await checkDatabaseHealth(),
-      memory: process.memoryUsage(),
-      cpu: process.cpuUsage()
-    }
-  };
-
-  try {
-    res.send(healthcheck);
-  } catch (error) {
-    healthcheck.message = error;
-    res.status(503).send();
-  }
-});
-```
-
-### Sistema de Métricas
-
-```typescript
-// Métricas básicas de la aplicación
-interface AppMetrics {
-  requests: {
-    total: number;
-    perMinute: number;
-    errors: number;
-  };
-  database: {
-    connections: number;
-    queries: number;
-    avgResponseTime: number;
-  };
-  system: {
-    uptime: number;
-    memory: NodeJS.MemoryUsage;
-    cpu: NodeJS.CpuUsage;
-  };
 }
 ```
 
-## 🔒 Seguridad
+#### POST /api/clientes
+Crea un nuevo cliente.
 
-### Mejores Prácticas Implementadas
-
-- **Validación de Entrada:** Sanitización de todos los datos de entrada
-- **CORS Configurado:** Orígenes específicos y headers controlados
-- **Rate Limiting:** Protección contra ataques de fuerza bruta
-- **Error Handling:** No exposición de información sensible
-- **Environment Variables:** Configuración sensible en variables de entorno
-- **SQL Injection Protection:** Uso de ORM con queries parametrizadas
-
-### Headers de Seguridad
-
-```typescript
-// Middleware de seguridad adicional
-app.use((req, res, next) => {
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
-  next();
-});
+**Body** (application/json):
+```json
+{
+  "nombre": "Juan Pérez",
+  "direccion": "Av. Eusebio Ayala 1234",
+  "telefono": "+595981234567",
+  "email": "juan.perez@example.com",
+  "ruc": "1234567-8",
+  "ci": "1234567"
+}
 ```
 
-## 📈 Performance
+**Validaciones**:
+- `nombre`: Requerido, mínimo 2 caracteres
+- `direccion`: Requerido, mínimo 5 caracteres
+- `telefono`: Requerido, formato válido (8-15 dígitos)
+- `email`: Requerido, formato válido, único
+- `ruc`: Opcional, formato paraguayo (ej: 1234567-8), único
+- `ci`: Opcional, solo números
 
-### Optimizaciones Implementadas
+**Respuesta exitosa (201)**:
+```json
+{
+  "success": true,
+  "message": "Cliente creado exitosamente",
+  "data": {
+    "id": 1,
+    "nombre": "Juan Pérez",
+    "direccion": "Av. Eusebio Ayala 1234",
+    "telefono": "+595981234567",
+    "email": "juan.perez@example.com",
+    "ruc": "1234567-8",
+    "ci": "1234567"
+  }
+}
+```
 
-- **Connection Pooling** para PostgreSQL
-- **Gzip Compression** para respuestas HTTP
-- **Caching** de queries frecuentes
-- **Lazy Loading** de relaciones de base de datos
-- **Index Optimization** en campos de búsqueda frecuente
+**Errores posibles**:
+- `400`: Errores de validación
+- `409`: Email o RUC duplicado
+- `500`: Error interno del servidor
 
-### Métricas de Performance
+#### PUT /api/clientes/:id
+Actualiza un cliente existente.
 
-| Métrica | Objetivo | Actual |
-|---------|----------|--------|
-| **Response Time** | < 200ms | 150ms |
-| **Throughput** | > 500 req/s | 750 req/s |
-| **Error Rate** | < 1% | 0.3% |
-| **Memory Usage** | < 256MB | 180MB |
+**Parámetros**:
+- `id`: ID del cliente (en la URL)
 
-## 👨‍💻 Autor
+**Body** (application/json - todos los campos opcionales):
+```json
+{
+  "nombre": "Juan Carlos Pérez",
+  "telefono": "+595991234567"
+}
+```
 
-**Enrique Bobadilla**
+**Respuesta exitosa (200)**:
+```json
+{
+  "success": true,
+  "message": "Cliente actualizado exitosamente",
+  "data": {
+    "id": 1,
+    "nombre": "Juan Carlos Pérez",
+    "direccion": "Av. Eusebio Ayala 1234",
+    "telefono": "+595991234567",
+    "email": "juan.perez@example.com",
+    "ruc": "1234567-8",
+    "ci": "1234567"
+  }
+}
+```
+
+**Errores posibles**:
+- `400`: ID inválido o errores de validación
+- `404`: Cliente no encontrado
+- `409`: Email duplicado con otro cliente
+- `500`: Error interno del servidor
+
+#### DELETE /api/clientes/:id
+Elimina un cliente.
+
+**Parámetros**:
+- `id`: ID del cliente (en la URL)
+
+**Respuesta exitosa (200)**:
+```json
+{
+  "success": true,
+  "message": "Cliente eliminado exitosamente",
+  "data": {
+    "id": "1"
+  }
+}
+```
+
+**Errores posibles**:
+- `400`: ID inválido
+- `404`: Cliente no encontrado
+- `500`: Error interno del servidor
+
+### Productos
+
+#### GET /api/productos
+Obtiene todos los productos.
+
+**Respuesta exitosa (200)**:
+```json
+[
+  {
+    "id": 1,
+    "nombre": "Producto A",
+    "descripcion": "Descripción del producto",
+    "codigo": "PROD-001",
+    "precio": 150000.00,
+    "createdAt": "2024-01-15T10:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z"
+  }
+]
+```
+
+#### POST /api/productos
+Crea un nuevo producto.
+
+**Body** (application/json):
+```json
+{
+  "nombre": "Producto A",
+  "descripcion": "Descripción del producto",
+  "codigo": "PROD-001",
+  "precio": 150000.00
+}
+```
+
+**Campos**:
+- `nombre`: Requerido, máximo 100 caracteres
+- `descripcion`: Opcional
+- `codigo`: Requerido, máximo 20 caracteres
+- `precio`: Requerido, decimal (10,2)
+
+**Respuesta exitosa (200)**:
+```json
+{
+  "id": 1,
+  "nombre": "Producto A",
+  "descripcion": "Descripción del producto",
+  "codigo": "PROD-001",
+  "precio": 150000.00
+}
+```
+
+#### PUT /api/productos/:id
+Actualiza un producto existente.
+
+**Parámetros**:
+- `id`: ID del producto (en la URL)
+
+**Body** (application/json):
+```json
+{
+  "nombre": "Producto A Modificado",
+  "precio": 175000.00
+}
+```
+
+**Respuesta exitosa (200)**:
+```json
+{
+  "id": 1,
+  "nombre": "Producto A Modificado",
+  "descripcion": "Descripción del producto",
+  "codigo": "PROD-001",
+  "precio": 175000.00
+}
+```
+
+**Errores posibles**:
+- `404`: Producto no encontrado
+- `500`: Error interno del servidor
+
+#### DELETE /api/productos/:id
+Elimina un producto.
+
+**Parámetros**:
+- `id`: ID del producto (en la URL)
+
+**Respuesta exitosa (200)**:
+```json
+{
+  "message": "Producto eliminado correctamente"
+}
+```
+
+**Errores posibles**:
+- `404`: Producto no encontrado
+- `500`: Error interno del servidor
+
+## Modelos de Datos
+
+### Cliente
+```typescript
+{
+  id: number;           // Auto-incremental
+  nombre: string;       // Máximo 100 caracteres
+  direccion: string;    // Máximo 200 caracteres
+  telefono?: string;    // Máximo 20 caracteres
+  email?: string;       // Máximo 100 caracteres, único
+  ruc: string;          // Máximo 20 caracteres, único
+  ci: string;           // Máximo 20 caracteres
+  createdAt: Date;
+  updatedAt: Date;
+}
+```
+
+### Producto
+```typescript
+{
+  id: number;           // Auto-incremental
+  nombre: string;       // Máximo 100 caracteres
+  descripcion?: string; // Texto
+  codigo: string;       // Máximo 20 caracteres
+  precio: number;       // Decimal (10,2)
+  createdAt: Date;
+  updatedAt: Date;
+}
+```
+
+## Características de Seguridad
+
+- **Validación de entrada**: Todos los endpoints validan datos antes de procesarlos
+- **Prevención de SQL Injection**: Uso de Sequelize ORM con consultas parametrizadas
+- **CORS configurado**: Solo permite orígenes específicos
+- **Límite de payload**: 10MB máximo
+- **Sanitización de datos**: Trim y normalización de entradas
+- **Validadores específicos**: RUC paraguayo, CI, email, teléfono
+
+## Scripts Disponibles
+
+```bash
+# Desarrollo con hot reload
+npm run dev
+
+# Compilar TypeScript
+npm run build
+
+# Ejecutar en producción
+npm start
+
+# Tests (pendiente implementación)
+npm test
+```
+
+## Manejo de Errores
+
+La API devuelve respuestas consistentes en formato JSON:
+
+**Respuesta exitosa**:
+```json
+{
+  "success": true,
+  "message": "Operación exitosa",
+  "data": { }
+}
+```
+
+**Respuesta de error**:
+```json
+{
+  "success": false,
+  "message": "Descripción del error",
+  "errors": ["Lista de errores específicos"],
+  "error": "Mensaje de error técnico (solo en development)"
+}
+```
+
+### Códigos HTTP Utilizados
+
+- `200`: Éxito
+- `201`: Recurso creado exitosamente
+- `400`: Error en la solicitud (validación)
+- `404`: Recurso no encontrado
+- `409`: Conflicto (duplicado)
+- `500`: Error interno del servidor
+- `503`: Servicio no disponible (base de datos desconectada)
+
+## Despliegue
+
+### Variables de Entorno en Producción
+
+Asegúrate de configurar las siguientes variables:
+
+```env
+NODE_ENV=production
+PORT=3000
+DB_HOST=your-production-db-host
+DB_NAME=proelectris_db
+DB_USER=your-db-user
+DB_PASSWORD=your-secure-password
+CORS_ORIGIN=https://your-frontend-domain.com
+```
+
+### Recomendaciones
+
+- Usar un gestor de procesos como PM2 o Docker
+- Configurar HTTPS con un proxy inverso (Nginx)
+- Implementar rate limiting
+- Configurar logs con Winston o similar
+- Monitoreo con herramientas como Sentry o New Relic
+
+## Mejoras Futuras
+
+- [ ] Implementar autenticación JWT
+- [ ] Agregar tests unitarios y de integración
+- [ ] Implementar paginación en productos
+- [ ] Agregar endpoint de búsqueda para productos
+- [ ] Implementar validación de duplicados para código de producto
+- [ ] Agregar middleware de rate limiting
+- [ ] Implementar soft delete
+- [ ] Agregar documentación con Swagger/OpenAPI
+- [ ] Implementar logging estructurado
+- [ ] Agregar métricas y monitoreo
+
+## Contribuir
+
+1. Fork del repositorio
+2. Crear una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
+3. Commit de tus cambios (`git commit -m 'Agregar nueva funcionalidad'`)
+4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
+5. Crear un Pull Request
+
+## Licencia
+
+Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
+
+## Contacto
+
+- Repositorio: [https://github.com/Yop007N/backendproelectris](https://github.com/Yop007N/backendproelectris)
+- Issues: [https://github.com/Yop007N/backendproelectris/issues](https://github.com/Yop007N/backendproelectris/issues)
 
 ---
 
-**Versión:** 1.0.0
-**Última actualización:** Diciembre 2024
+Desarrollado con TypeScript, Express y PostgreSQL.
